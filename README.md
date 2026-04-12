@@ -1,82 +1,126 @@
-# ASL Translator 🤟
+# Gestura — Real-Time ASL Translator
 
-Real-time American Sign Language (ASL) hand gesture translator using a custom-trained CNN + LSTM model, MediaPipe, FastAPI, and React. Built from scratch — no external AI APIs.
+![Gestura](frontend/public/Gestura.png)
 
----
+> A full-stack AI-powered American Sign Language translator built from scratch. Sign a letter in front of your webcam and see it translated instantly.
 
-## 🚧 Project Status
-
-| Phase | Status | Description |
-|---|---|---|
-| Phase 1 — Foundation | ✅ Done | Project setup, environment, folder structure, documentation |
-| Phase 2 — ML + Backend | ✅ Done | Dataset preprocessing, 98% accuracy LSTM model, FastAPI server |
-| Phase 3 — Frontend | ⏳ Pending | React webcam UI, real-time overlay |
-| Phase 4 — Deployment | ⏳ Pending | Docker, CI/CD, AWS cloud deployment |
+🌐 **Live at:** [gestura.ai](https://gestura.ai) *(coming soon — Phase 4)*  
+⭐ **Star this repo if you find it useful!**
 
 ---
 
-## 🧠 Tech Stack
+## What is Gestura?
+
+Gestura is a real-time ASL alphabet translator that uses a custom-trained LSTM neural network to recognize hand signs directly from your webcam. No external AI APIs. No pre-built models. Everything — from the training pipeline to the React frontend — was built from scratch.
+
+---
+
+## Features
+
+- 🤟 **Real-time ASL detection** — 29 signs (A-Z + space, del, nothing)
+- 🧠 **Custom LSTM model** — trained on 87,000 images, 98.2% accuracy
+- ✋ **MediaPipe hand tracking** — 21 landmark coordinates per frame
+- ⚡ **Sub-200ms inference** — FastAPI backend with live webcam feed
+- 📝 **Sentence builder** — auto-add letters, copy, share
+- 📖 **ASL Reference guide** — all 26 letters with images
+- 💾 **Session history** — saves past signed sentences
+- 👍 **Accuracy feedback** — thumbs up/down on predictions
+- 🔗 **Share card** — share your signed sentence
+
+---
+
+## Tech Stack
 
 | Layer | Technology |
-|---|---|
-| ML Model | PyTorch |
+|-------|-----------|
+| ML Model | PyTorch LSTM |
 | Hand Tracking | MediaPipe |
 | Backend | FastAPI + Uvicorn |
-| Frontend | React + Tailwind CSS |
-| Containerization | Docker |
-| CI/CD | GitHub Actions |
-| Cloud | AWS |
+| Frontend | Next.js + React + TypeScript |
+| Styling | Inline CSS (Gestura design system) |
+| Deployment | Docker + AWS EC2 + Vercel *(Phase 4)* |
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 asl-translator/
 ├── backend/
-│   ├── model/
-│   │   ├── train.py          # training script
-│   │   ├── model.py          # LSTM model architecture
-│   │   └── preprocess.py     # landmark extraction
-│   └── api/
-│       └── main.py           # FastAPI server
-├── frontend/                 # React app (Phase 3)
+│   ├── api/
+│   │   └── main.py          # FastAPI server
+│   └── model/
+│       ├── model.py         # LSTM architecture
+│       ├── preprocess.py    # MediaPipe landmark extraction
+│       └── train.py         # Training pipeline
+├── frontend/
+│   └── app/
+│       ├── page.tsx         # Landing page
+│       ├── about/           # About page
+│       ├── blog/            # Blog page
+│       ├── contact/         # Contact page
+│       ├── reference/       # ASL reference guide
+│       ├── opensource/      # Open source page
+│       └── app-page/        # Live translator app
 ├── data/
-│   ├── raw/                  # downloaded dataset images
-│   └── processed/            # extracted landmark CSVs
-├── docs/
-│   ├── project-foundation.md
-│   ├── model.md
-│   ├── api.md
-│   ├── frontend.md
-│   └── deployment.md
-└── README.md
+│   ├── raw/                 # ASL Alphabet dataset (87K images)
+│   └── processed/           # Landmarks CSV + trained model
+└── docs/
+└── project-foundation.md
 
 ---
 
-## 📄 Documentation
+## Phases
 
-* [Project Foundation](https://github.com/manavkheni1/asl-translator/blob/main/docs/project-foundation.md)
-* [Training Curves](https://github.com/manavkheni1/asl-translator/blob/main/docs/training_curves.png)
-* Model Doc — coming in Phase 3
-* API Doc — coming in Phase 3
-* Frontend Doc — coming in Phase 3
-* Deployment Doc — coming in Phase 4
+| Phase | Description | Status |
+|-------|-------------|--------|
+| Phase 1 | Project setup, environment, Git | ✅ Complete |
+| Phase 2 | Data preprocessing, model training, FastAPI | ✅ Complete |
+| Phase 3 | Full website + app UI | ✅ Complete |
+| Phase 4 | Docker, CI/CD, AWS + Vercel deployment | 🔄 In Progress |
 
 ---
 
-## 🛠️ Local Setup
+## Getting Started
+
+### Prerequisites
+- Python 3.10+
+- Node.js 18+
+- conda
+
+### Backend Setup
 ```bash
-# Clone the repo
-git clone https://github.com/manavkheni1/asl-translator.git
-cd asl-translator
-
-# Create and activate conda environment
-conda create -n asl-translator python=3.10
 conda activate asl-translator
-
-# Install dependencies
-pip install torch torchvision torchaudio mediapipe opencv-python fastapi uvicorn numpy pandas scikit-learn matplotlib
+cd Desktop/asl-translator
+uvicorn backend.api.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
+### Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open `http://localhost:3000` in your browser.
+
 ---
 
-*Built by Manav Kheni — April 2026*
+## Model Details
+
+- **Architecture:** 2-layer LSTM (input=63, hidden=128, classes=29)
+- **Dataset:** ASL Alphabet — Kaggle (87,000 images, 29 classes)
+- **Preprocessing:** MediaPipe Tasks API → 21 landmarks → 63 normalized coordinates
+- **Training:** 30 epochs, MPS (Apple Silicon), 80/20 split
+- **Test Accuracy:** 98.23%
+
+---
+
+## Built By
+
+**Manav Kheni**  
+[LinkedIn](https://www.linkedin.com/in/manav-kheni-678368383/) · [GitHub](https://github.com/manavkheni1)
+
+---
+
+## License
+
+MIT — free to use, modify, and distribute.

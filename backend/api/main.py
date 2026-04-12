@@ -66,8 +66,10 @@ class FrameRequest(BaseModel):
 def extract_landmarks_from_frame(image_bytes):
     """
     Converts raw image bytes to a MediaPipe image,
-    runs hand detection, and returns 63 normalized landmark coords.
-    Returns None if no hand is detected.
+    runs hand detection, and returns:
+    - coords: 63 normalized values for model input
+    - raw: list of [x, y, z] for each of 21 landmarks (for overlay)
+    Returns (None, None) if no hand is detected.
     """
     np_arr = np.frombuffer(image_bytes, np.uint8)
     frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
@@ -80,13 +82,14 @@ def extract_landmarks_from_frame(image_bytes):
     results = detector.detect(mp_image)
 
     if not results.hand_landmarks:
-        return None
+        return None, None
 
     landmarks = results.hand_landmarks[0]
     wrist_x = landmarks[0].x
     wrist_y = landmarks[0].y
     wrist_z = landmarks[0].z
 
+    # Normalized coords for model input
     coords = []
     for lm in landmarks:
         coords.extend([
@@ -94,7 +97,11 @@ def extract_landmarks_from_frame(image_bytes):
             lm.y - wrist_y,
             lm.z - wrist_z
         ])
-    return coords
+
+    # Raw coords for frontend overlay drawing
+    raw = [[lm.x, lm.y, lm.z] for lm in landmarks]
+
+    return coords, raw
 
 
 # ── Routes ─────────────────────────────────────────────────────────────────────
@@ -113,7 +120,8 @@ def predict(request: FrameRequest):
     """
     Accepts a base64-encoded webcam frame,
     extracts hand landmarks, runs the LSTM model,
-    and returns the predicted ASL letter with confidence score.
+    and returns the predicted ASL letter, confidence score,
+    and raw landmarks for the frontend overlay.
     """
     try:
         # Decode base64 image from frontend
@@ -122,13 +130,18 @@ def predict(request: FrameRequest):
         raise HTTPException(status_code=400, detail="Invalid base64 image")
 
     # Extract landmarks using MediaPipe
-    landmarks = extract_landmarks_from_frame(image_bytes)
+    coords, raw_landmarks = extract_landmarks_from_frame(image_bytes)
 
-    if landmarks is None:
-        return {"prediction": None, "confidence": 0.0, "message": "No hand detected"}
+    if coords is None:
+        return {
+            "prediction": None,
+            "confidence": 0.0,
+            "message": "No hand detected",
+            "landmarks": []
+        }
 
     # Run inference through the LSTM model
-    input_tensor = torch.tensor(landmarks, dtype=torch.float32)
+    input_tensor = torch.tensor(coords, dtype=torch.float32)
     input_tensor = input_tensor.unsqueeze(0).unsqueeze(0).to(device)  # (1, 1, 63)
 
     with torch.no_grad():
@@ -142,5 +155,6 @@ def predict(request: FrameRequest):
     return {
         "prediction": predicted_label,
         "confidence": confidence_score,
-        "message": "success"
+        "message": "success",
+        "landmarks": raw_landmarks
     }
