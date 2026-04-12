@@ -9,7 +9,7 @@ Real-time American Sign Language (ASL) hand gesture translator using a custom-tr
 | Phase | Status | Description |
 |---|---|---|
 | Phase 1 — Foundation | ✅ Done | Project setup, environment, folder structure, documentation |
-| Phase 2 — ML + Backend | 🔄 In Progress | Dataset, model training, FastAPI server |
+| Phase 2 — ML + Backend | ✅ Done | Dataset preprocessing, 98% accuracy LSTM model, FastAPI server |
 | Phase 3 — Frontend | ⏳ Pending | React webcam UI, real-time overlay |
 | Phase 4 — Deployment | ⏳ Pending | Docker, CI/CD, AWS cloud deployment |
 
