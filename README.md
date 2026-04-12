@@ -54,11 +54,12 @@ asl-translator/
 
 ## 📄 Documentation
 
-- [Project Foundation](docs/project-foundation.md)
-- Model Doc — coming in Phase 2
-- API Doc — coming in Phase 2
-- Frontend Doc — coming in Phase 3
-- Deployment Doc — coming in Phase 4
+* [Project Foundation](https://github.com/manavkheni1/asl-translator/blob/main/docs/project-foundation.md)
+* [Training Curves](https://github.com/manavkheni1/asl-translator/blob/main/docs/training_curves.png)
+* Model Doc — coming in Phase 3
+* API Doc — coming in Phase 3
+* Frontend Doc — coming in Phase 3
+* Deployment Doc — coming in Phase 4
 
 ---
 
