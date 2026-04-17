@@ -1,5 +1,8 @@
 # Gestura — Real-Time ASL Translator
 
+Live Demo: https://gestura-asl-translator.vercel.app
+Backend API: https://gestura-6bia.onrender.com
+
 ![Gestura](frontend/public/Gestura.png)
 
 > A full-stack AI-powered American Sign Language translator built from scratch. Sign a letter in front of your webcam and see it translated instantly.
