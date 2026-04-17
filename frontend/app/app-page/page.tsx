@@ -86,7 +86,7 @@ export default function AppPage() {
     if (!imageSrc) return;
     const base64Image = imageSrc.split(",")[1];
     try {
-      const response = await fetch("http://localhost:8000/predict", {
+      const response = await fetch("https://gestura-6bia.onrender.com/predict", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ image: base64Image }),
