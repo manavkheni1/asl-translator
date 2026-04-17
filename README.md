@@ -4,7 +4,7 @@
 
 > A full-stack AI-powered American Sign Language translator built from scratch. Sign a letter in front of your webcam and see it translated instantly.
 
-🌐 **Live at:** [gestura.ai](https://gestura.ai) *(coming soon — Phase 4)*  
+🌐 **Live at:** [gestura.up.railway.app](https://gestura.up.railway.app) *(coming soon)*  
 ⭐ **Star this repo if you find it useful!**
 
 ---
@@ -38,7 +38,8 @@ Gestura is a real-time ASL alphabet translator that uses a custom-trained LSTM n
 | Backend | FastAPI + Uvicorn |
 | Frontend | Next.js + React + TypeScript |
 | Styling | Inline CSS (Gestura design system) |
-| Deployment | Docker + AWS EC2 + Vercel *(Phase 4)* |
+| Containerization | Docker |
+| Deployment | Railway (backend) + Vercel (frontend) |
 
 ---
 
@@ -63,6 +64,8 @@ asl-translator/
 ├── data/
 │   ├── raw/                 # ASL Alphabet dataset (87K images)
 │   └── processed/           # Landmarks CSV + trained model
+├── Dockerfile               # Backend container
+├── requirements.txt         # Python dependencies
 └── docs/
 └── project-foundation.md
 
@@ -75,7 +78,7 @@ asl-translator/
 | Phase 1 | Project setup, environment, Git | ✅ Complete |
 | Phase 2 | Data preprocessing, model training, FastAPI | ✅ Complete |
 | Phase 3 | Full website + app UI | ✅ Complete |
-| Phase 4 | Docker, CI/CD, AWS + Vercel deployment | 🔄 In Progress |
+| Phase 4 | Docker + Railway + Vercel deployment | ✅ Complete |
 
 ---
 
@@ -101,6 +104,12 @@ npm run dev
 ```
 
 Open `http://localhost:3000` in your browser.
+
+### Docker (optional)
+```bash
+docker build -t gestura-backend .
+docker run -p 8000:8000 gestura-backend
+```
 
 ---
 
