@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     libxext6 \
     libxrender-dev \
     libgomp1 \
+    wget \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install
@@ -20,7 +21,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY backend/ ./backend/
 COPY data/processed/asl_model.pth ./data/processed/asl_model.pth
 COPY data/processed/label_classes.npy ./data/processed/label_classes.npy
-COPY hand_landmarker.task ./hand_landmarker.task
+
+# Download hand landmarker model at build time
+RUN wget -q https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task \
+    -O hand_landmarker.task
 
 # Expose port
 EXPOSE 8000
