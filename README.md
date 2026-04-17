@@ -7,7 +7,6 @@ Backend API: https://gestura-6bia.onrender.com
 
 > A full-stack AI-powered American Sign Language translator built from scratch. Sign a letter in front of your webcam and see it translated instantly.
 
-🌐 **Live at:** [gestura.up.railway.app](https://gestura.up.railway.app) *(coming soon)*  
 ⭐ **Star this repo if you find it useful!**
 
 ---
